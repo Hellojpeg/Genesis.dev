@@ -4,15 +4,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: runtime
+      target: bolt-ai-production
     ports:
-      - '3000:3000'
+      - '5173:5173'
     env_file: 
       - '.env'
       - '.env.local'
     environment:
       - NODE_ENV=production
-      - PORT=3000
+      - PORT=5173
       - HOST=0.0.0.0
       - GROQ_API_KEY=${GROQ_API_KEY}
       - HuggingFace_API_KEY=${HuggingFace_API_KEY}
@@ -30,7 +30,6 @@ services:
       - RUNNING_IN_DOCKER=true
     extra_hosts:
       - 'host.docker.internal:host-gateway'
-    command: node build/server/index.js
   
   app-dev:
     image: bolt-ai:development
@@ -84,7 +83,6 @@ services:
       - '5173:5173'
     environment:
       - NODE_ENV=production
-      - COMPOSE_PROFILES=production
       - PORT=5173
       - OLLAMA_API_BASE_URL=http://127.0.0.1:11434
       - DEFAULT_NUM_CTX=${DEFAULT_NUM_CTX:-32768}
